@@ -15,9 +15,9 @@ class AlienShip extends Ship {
     alienAttack(){
         if(this.accuracy>Math.random()){
             ussAssembly.hull -= this.firepower;
-            console.log("You've been hit! Hull: "+ussAssembly.hull)
+            alert("You've been hit! Hull: "+ussAssembly.hull)
         } else {
-            console.log("The aliens have missed!");
+            alert("The aliens missed!");
         }
     }
 }
@@ -29,10 +29,10 @@ class OurShip extends Ship {
     attack(){
         if (this.accuracy > Math.random()) {
             alienArr[0].hull -= this.firepower;
-            console.log("Direct hit!");
+            alert("Direct hit!");
          }
          else {
-             console.log("You missed!");
+             alert("You missed!");
          }
     }
 }
@@ -47,7 +47,32 @@ for (let i = 0; i < 6; i++){
 
 const ussAssembly = new OurShip(20,5,.7);
 
+function start() {
+    // if(confirm("Press OK to attack!")){
+        ussAssembly.attack();
+        if(alienArr[0].hull <= 0 && alienArr.length > 0){
+            alienArr.shift();
+            alert("KABOOM! You have defeated an alien ship! There are "+alienArr.length +" alien ships left.");
+            console.log(alienArr);
+            if (alienArr.length == 0){
+                alert("ALL ALIEN SHIPS HAVE BEEN DEFEATED! YOU HAVE SAVED EARTH!")
+                window.location.reload();
+            }else if(confirm("Press OK to retreat.")){
+                alert("Retreating...");
+                window.location.reload();
+            }
+        }else if(alienArr[0].hull > 0){
+            alienArr[0].alienAttack();
+            if(ussAssembly.hull <= 0){
+                alert("THE ALIENS HAVE DEFEATED YOU!");
+                window.location.reload();
+            }
+        }
+    }
+    
+// }
 console.log(alienArr);
 console.log(ussAssembly);
-ussAssembly.attack();
-alienArr[0].alienAttack();
+// ussAssembly.attack();
+// alienArr[0].alienAttack();
+// console.log(alienArr);
